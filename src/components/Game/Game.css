@@ -1,0 +1,12 @@
+.game {
+}
+
+.game .letter {
+  color: black; /* Default color for untyped letters */
+  display: inline-flex;
+}
+
+.correct-letter {
+  color: green;
+  display: inline-flex;
+}
