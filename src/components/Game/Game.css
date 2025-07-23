@@ -1,12 +1,39 @@
-.game {
-}
-
-.game .letter {
-  color: black; /* Default color for untyped letters */
-  display: inline-flex;
-}
-
-.correct-letter {
-  color: green;
-  display: inline-flex;
-}
+.word-container {
+    display: flex;
+    overflow-x: hidden;
+    white-space: nowrap;
+    width: 100%;
+    position: relative;
+    transform: translateX(0); /* Default position */
+    transition: transform 0.5s ease-in-out; /* Smooth transition */
+  }
+  
+  .current-word {
+    color: black;
+    font-weight: bold;
+    margin: 0 10px;
+  }
+  
+  .completed-word {
+    color: gray;
+    margin: 0 10px;
+  }
+  
+  .future-word {
+    color: lightgray;
+    margin: 0 10px;
+  }
+  
+  .current-word-letters {
+    margin-top: 20px;
+  }
+  
+  .letter {
+    color: black;
+    display: inline-flex;
+  }
+  
+  .correct-letter {
+    color: green;
+    display: inline-flex;
+  }

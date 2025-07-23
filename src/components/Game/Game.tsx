@@ -40,18 +40,13 @@ function Game() {
   useEffect(() => {
     const onKeyPress = (event: KeyboardEvent) => {
       if (event.key === word[x]?.toLowerCase()) {
-        console.log("Correct key pressed");
         setX(x + 1);
 
         if (x == word.length - 1) {
-          console.log("Word completed: " + word);
           setX(0); // Reset x to start over with the next word
           setWordCount(wordCount + 1); // Get a new random word
         }
-      } else {
-        console.log("Incorrect key pressed");
-        console.log("word at 0: " + word[x]?.toLowerCase());
-      }
+      } 
     };
 
     document.addEventListener("keydown", onKeyPress);
@@ -61,17 +56,41 @@ function Game() {
     };
   }, [word, x]);
 
+  useEffect(() => {
+    const wordContainer = document.querySelector(".word-container") as HTMLElement;
+    const currentWordElement = document.querySelector(".current-word") as HTMLElement;
+  
+    if (wordContainer && currentWordElement) {
+      const wordWidth = currentWordElement.offsetWidth; // Get the width of the current word
+      wordContainer.style.transform = `translateX(-${wordWidth}px)`; // Shift left by the width of the completed word
+    }
+  }, [wordCount]);
+  
   return (
     <div className="game">
-      <h1>Game Component</h1>
-      <div className="current-word">
-        {word.split("").map((char, index) => (
-          <h2
-            className={x > index ? "correct-letter" : "letter"}
+      <div className="word-container">
+        {words.map((word, index) => (
+          <span
+            className={
+              index === wordCount
+                ? "current-word"
+                : index < wordCount
+                ? "completed-word"
+                : "future-word"
+            }
             key={index}
           >
-            {char}
-          </h2>
+            {index === wordCount
+              ? word.split("").map((char, charIndex) => (
+                  <span
+                    className={x > charIndex ? "correct-letter" : "letter"}
+                    key={charIndex}
+                  >
+                    {char}
+                  </span>
+                ))
+              : word}
+          </span>
         ))}
       </div>
     </div>
