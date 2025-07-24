@@ -1,39 +1,36 @@
-.word-container {
-    display: flex;
-    overflow-x: hidden;
-    white-space: nowrap;
-    width: 100%;
+/* ...existing code... */
+
+.game {
+    display: inline-flex;
+    width: 100vw;
     position: relative;
-    transform: translateX(0); /* Default position */
-    transition: transform 0.5s ease-in-out; /* Smooth transition */
-  }
-  
-  .current-word {
-    color: black;
-    font-weight: bold;
-    margin: 0 10px;
-  }
-  
-  .completed-word {
+    justify-content: flex-start;
+    align-items: center;
+}
+
+
+.prev-word-container {
+    background-color: red;
+}
+.prev-word {
     color: gray;
     margin: 0 10px;
-  }
-  
-  .future-word {
+}
+
+
+.current-word-container {
+    background-color: blue;
+    display: flex;
+}
+.correct-letter {
+    color: green;
+}
+
+
+.future-word-container {
+    background-color: green;
+}
+.future-word {
     color: lightgray;
     margin: 0 10px;
-  }
-  
-  .current-word-letters {
-    margin-top: 20px;
-  }
-  
-  .letter {
-    color: black;
-    display: inline-flex;
-  }
-  
-  .correct-letter {
-    color: green;
-    display: inline-flex;
-  }
+}

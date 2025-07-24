@@ -3,97 +3,107 @@ import { useEffect, useState } from "react";
 import "./Game.css";
 
 function Game() {
-  const [loading, setLoading] = useState(true);
-  const [word, setWord] = useState("Loading");
-  const [words, setWords] = useState<string[]>([]);
-  const [x, setX] = useState(0);
-  const [wordCount, setWordCount] = useState(0);
-  //const [key, setKey] = useState("Error")
+    const [loading, setLoading] = useState(true);
+    const [currentWord, setCurrentWord] = useState(" ");
+    const [currentLetterIndex, setCurrentLetterIndex] = useState(0);
+    const [wordCount, setWordCount] = useState(0);
 
-  //Fetch words from API
-  const fetchAPI = async () => {
-    await axios
-      .get("https://random-word-api.herokuapp.com/word?number=42")
-      .then((response) => {
-        console.log(response.data);
-        setWords(response.data);
+    const [futureWords, setFutureWords] = useState<string[]>([]);
+    const [prevWords, setPrevWords] = useState<string[]>([]);
 
-        // You should NOT log backendData here, it's not updated yet
-        // // Log directly from the response
-      })
-      .then(() => setLoading(false));
-  };
 
-  //Update word
-  useEffect(() => {
-    if (words.length > 0) {
-      setWord(words[wordCount]);
-    }
-  }, [words, wordCount]);
+    //Fetch words from API
+    const fetchAPI = async () => {
+        await axios
+            .get("https://random-word-api.herokuapp.com/word?number=42")
+            .then((response) => {
+                console.log(response.data);
+                setFutureWords(response.data);
 
-  //Run when component mounts (page loads)
-  useEffect(() => {
-    fetchAPI();
-  }, []);
+                // You should NOT log backendData here, it's not updated yet
+                // // Log directly from the response
+            })
+            .then(() => setLoading(false));
+    };
 
-  //Handle key strokes and check if they match the current word
-  useEffect(() => {
-    const onKeyPress = (event: KeyboardEvent) => {
-      if (event.key === word[x]?.toLowerCase()) {
-        setX(x + 1);
-
-        if (x == word.length - 1) {
-          setX(0); // Reset x to start over with the next word
-          setWordCount(wordCount + 1); // Get a new random word
+    //Update currentWord
+    useEffect(() => {
+        if (futureWords.length > 0 && loading === false) {
+            setPrevWords([...prevWords, currentWord]);
+            setCurrentWord(futureWords.shift() || "No words available");
         }
-      } 
-    };
+    }, [wordCount]);
 
-    document.addEventListener("keydown", onKeyPress);
+    useEffect(() => {
+        if(loading == false){
+            setCurrentWord(futureWords.shift() || "No words available");
+        }
+    }, [futureWords]);
 
-    return () => {
-      document.removeEventListener("keydown", onKeyPress);
-    };
-  }, [word, x]);
 
-  useEffect(() => {
-    const wordContainer = document.querySelector(".word-container") as HTMLElement;
-    const currentWordElement = document.querySelector(".current-word") as HTMLElement;
-  
-    if (wordContainer && currentWordElement) {
-      const wordWidth = currentWordElement.offsetWidth; // Get the width of the current word
-      wordContainer.style.transform = `translateX(-${wordWidth}px)`; // Shift left by the width of the completed word
-    }
-  }, [wordCount]);
-  
-  return (
-    <div className="game">
-      <div className="word-container">
-        {words.map((word, index) => (
-          <span
-            className={
-              index === wordCount
-                ? "current-word"
-                : index < wordCount
-                ? "completed-word"
-                : "future-word"
+
+    //Handle key strokes and check if they match the current word
+    useEffect(() => {
+        const onKeyPress = (event: KeyboardEvent) => {
+            if (event.key === currentWord[currentLetterIndex]?.toLowerCase()) {
+                setCurrentLetterIndex(currentLetterIndex + 1);
+
+                if (currentLetterIndex == currentWord.length - 1) {
+                    setCurrentLetterIndex(0); // Reset currentLetterIndex to start over with the next word
+                    setWordCount(wordCount + 1); // Get a new random word
+                }
             }
-            key={index}
-          >
-            {index === wordCount
-              ? word.split("").map((char, charIndex) => (
-                  <span
-                    className={x > charIndex ? "correct-letter" : "letter"}
-                    key={charIndex}
-                  >
-                    {char}
-                  </span>
-                ))
-              : word}
-          </span>
-        ))}
-      </div>
-    </div>
-  );
+        };
+
+        document.addEventListener("keydown", onKeyPress);
+
+        return () => {
+            document.removeEventListener("keydown", onKeyPress);
+        };
+    }, [currentWord, currentLetterIndex]);
+
+    //Run when component mounts (page loads)
+    useEffect(() => {
+        fetchAPI();
+    }, []);
+
+
+    return (
+        <div className="game">
+
+            <div className="prev-word-container">
+                {prevWords.map((prevWord, index) => (
+                    <span className="prev-word" key={index}>
+                        {prevWord}
+                    </span>
+                ))}
+            </div>
+
+            <div className="current-word-container">
+                <h2>{currentWord.split('').map((char, index) => (
+                    <span
+                        key={index}
+                        className={currentLetterIndex === index ? "current-letter" : index < currentLetterIndex ? "correct-letter" : "future-letter"}
+                    >{char}</span>
+
+                )
+
+                )}</h2>
+            </div>
+
+
+            <div className="future-word-container">
+                {futureWords.map((word, index) => (
+                    <span
+                        className="future-word"
+                        key={index}
+                    >
+                        {word}
+                    </span>
+                ))}
+            </div>
+
+        </div>
+    );
 }
 export default Game;
