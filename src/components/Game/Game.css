@@ -21,6 +21,7 @@
 
 .current-word-container {
     background-color: blue;
+    color: white;
 }
 .correct-letter {
     color: green;

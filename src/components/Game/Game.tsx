@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import words from "../../data/wordlist.json";
 import "./Game.css";
 
 function Game() {
@@ -24,7 +25,10 @@ function Game() {
                 // // Log directly from the response
             })
             .then(() => setLoading(false));
+        
     };
+
+    
 
     //Update currentWord
     useEffect(() => {
@@ -64,7 +68,9 @@ function Game() {
 
     //Run when component mounts (page loads)
     useEffect(() => {
+        console.log("Component mounted");
         fetchAPI();
+        console.log(words)
     }, []);
 
 
