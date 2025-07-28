@@ -1,16 +1,17 @@
 /* ...existing code... */
 
 .game {
-    display: inline-flex;
+    /* display: flex;
     width: 100vw;
     position: relative;
     justify-content: flex-start;
     align-items: center;
+    overflow: hidden; */
 }
 
 
 .prev-word-container {
-    background-color: red;
+     background-color: red;
 }
 .prev-word {
     color: gray;
@@ -20,7 +21,6 @@
 
 .current-word-container {
     background-color: blue;
-    display: flex;
 }
 .correct-letter {
     color: green;

@@ -8,7 +8,7 @@ function Game() {
     const [currentLetterIndex, setCurrentLetterIndex] = useState(0);
     const [wordCount, setWordCount] = useState(0);
 
-    const [futureWords, setFutureWords] = useState<string[]>([]);
+    const [futureWords, setFutureWords] = useState<string[]>(["loading..."]);
     const [prevWords, setPrevWords] = useState<string[]>([]);
 
 
@@ -71,13 +71,13 @@ function Game() {
     return (
         <div className="game">
 
-            <div className="prev-word-container">
+            {/* <div className="prev-word-container">
                 {prevWords.map((prevWord, index) => (
                     <span className="prev-word" key={index}>
                         {prevWord}
                     </span>
                 ))}
-            </div>
+            </div> */}
 
             <div className="current-word-container">
                 <h2>{currentWord.split('').map((char, index) => (
@@ -92,7 +92,7 @@ function Game() {
             </div>
 
 
-            <div className="future-word-container">
+            {/* <div className="future-word-container">
                 {futureWords.map((word, index) => (
                     <span
                         className="future-word"
@@ -101,7 +101,7 @@ function Game() {
                         {word}
                     </span>
                 ))}
-            </div>
+            </div> */}
 
         </div>
     );

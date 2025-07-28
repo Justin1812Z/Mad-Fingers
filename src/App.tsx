@@ -3,15 +3,18 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css'
 import Welcome from './components/Welcome/Welcome'
 import Game from './components/Game/Game'
+import Navbar from './components/Navbar/Navbar'
+import Testing from './components/Testing/Testing'
 
 function App() {
 
   return (
     <Router>
-        {/* <Navbar /> */}
+       <Navbar />
         <Routes>
           <Route path="/" element={<Welcome />} />
           <Route path="/game" element={<Game />} />
+          <Route path="/testing" element={<Testing />} />
         </Routes>
       </Router>
   )
