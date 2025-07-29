@@ -11,20 +11,21 @@ function Game() {
 
     const [futureWords, setFutureWords] = useState<string[]>(["loading..."]);
     const [prevWords, setPrevWords] = useState<string[]>([]);
+    const [newWords, setNewWords] = useState<string[]>([]);
 
 
     //Fetch words from API
     const fetchAPI = async () => {
-        await axios
-            .get("https://random-word-api.herokuapp.com/word?number=42")
-            .then((response) => {
-                console.log(response.data);
-                setFutureWords(response.data);
+        // await axios
+        //     .get("https://random-word-api.herokuapp.com/word?number=42")
+        //     .then((response) => {
+        //         console.log(response.data);
+        //         setFutureWords(response.data);
 
-                // You should NOT log backendData here, it's not updated yet
-                // // Log directly from the response
-            })
-            .then(() => setLoading(false));
+        //         // You should NOT log backendData here, it's not updated yet
+        //         // // Log directly from the response
+        //     })
+        //     .then(() => setLoading(false));       
         
     };
 
@@ -69,8 +70,15 @@ function Game() {
     //Run when component mounts (page loads)
     useEffect(() => {
         console.log("Component mounted");
-        fetchAPI();
-        console.log(words)
+        //fetchAPI();
+
+        for (let i = 0; i < 10; i++) {
+            const randomIndex = Math.floor(Math.random() * 8161);
+            newWords.push(words.words[randomIndex]);
+        }
+
+        setFutureWords(newWords);
+        setLoading(false);
     }, []);
 
 
@@ -98,7 +106,7 @@ function Game() {
             </div>
 
 
-            {/* <div className="future-word-container">
+            <div className="future-word-container">
                 {futureWords.map((word, index) => (
                     <span
                         className="future-word"
@@ -107,7 +115,7 @@ function Game() {
                         {word}
                     </span>
                 ))}
-            </div> */}
+            </div>
 
         </div>
     );
