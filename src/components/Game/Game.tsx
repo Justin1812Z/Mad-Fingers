@@ -1,25 +1,24 @@
-import axios from "axios";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import words from "../../data/wordlist.json";
 import "./Game.css";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-function Game() {
+function Game({ wordCount, setWordCount }: { wordCount: number; setWordCount: (count: number) => void }) {
     const [loading, setLoading] = useState(true);
     const [currentWord, setCurrentWord] = useState(" ");
     const [currentLetterIndex, setCurrentLetterIndex] = useState(0);
-    const [wordCount, setWordCount] = useState(0); 
+    //const [wordCount, setWordCount] = useState(0); 
 
     const [futureWords, setFutureWords] = useState<string[]>(["loading..."]);
-    const [prevWords, setPrevWords] = useState<string[]>([]);
-    const [newWords, setNewWords] = useState<string[]>([]);
+    //const [prevWords, setPrevWords] = useState<string[]>([]);
+    const [newWords] = useState<string[]>([]);
     const [timer, setTimer] = useState(30.00);
     const [timerStarted, setTimerStarted] = useState(false);
     const navigate = useNavigate();
 
 
     //*** Depricated ***Fetch words from API
-    const fetchAPI = async () => {
+    //const fetchAPI = async () => {
         // await axios
         //     .get("https://random-word-api.herokuapp.com/word?number=42")
         //     .then((response) => {
@@ -30,15 +29,15 @@ function Game() {
         //         // // Log directly from the response
         //     })
         //     .then(() => setLoading(false));       
-        
-    };
+
+    //};
 
 
 
     //Update currentWord when wordCount or futureWords changes
     useEffect(() => {
-        if(loading == false){
-            setCurrentWord(futureWords.shift() || "No words available");  
+        if (loading == false) {
+            setCurrentWord(futureWords.shift() || "No words available");
         }
     }, [wordCount, futureWords]);
 
@@ -47,16 +46,16 @@ function Game() {
     //Handle key strokes and check if they match the current word
     useEffect(() => {
         const onKeyPress = (event: KeyboardEvent) => {
-            if(timerStarted == false && wordCount == 0 && currentLetterIndex == 0){
-                 setTimerStarted(true);
-                 startTime();
+            if (timerStarted == false && wordCount == 0 && currentLetterIndex == 0) {
+                setTimerStarted(true);
+                startTime();
             }
             if (event.key === currentWord[currentLetterIndex]?.toLowerCase()) {
                 setCurrentLetterIndex(currentLetterIndex + 1);
 
                 if (currentLetterIndex == currentWord.length - 1) {
                     setCurrentLetterIndex(0); //Reset currentLetterIndex to start over with the next word
-                    setWordCount(wordCount + 1); 
+                    setWordCount(wordCount + 1);
                 }
             }
         };
@@ -68,36 +67,44 @@ function Game() {
         };
     }, [currentWord, currentLetterIndex]);
 
-    
+
     //When page loads, populate array with i random words, setFutureWords = that array, setLoading to false
     useEffect(() => {
         //fetchAPI();
 
-        for (let n = 0; n < 10; n++) {
+        setWordCount(0);
+
+        for (let n = 0; n < 100; n++) {
             const randomIndex = Math.floor(Math.random() * 8161);
             newWords.push(words.words[randomIndex]);
+
         }
 
         setFutureWords(newWords);
         setLoading(false);
     }, []);
 
- 
+
 
     function startTime() {
-    
+
         const intervalId = setInterval(() => {
             setTimer(prevTimer => {
                 if (prevTimer <= 0.01) {
                     clearInterval(intervalId);
-                    navigate("/results");
+
                     return 0;
                 }
                 return +(prevTimer - 0.01).toFixed(2);
             });
         }, 10);
-    
-}
+    }
+
+    useEffect(() => {
+        if (timer === 0) {
+            navigate("/results");
+        }
+    }, [timer, navigate]);
 
     return (
         <div className="game">
@@ -125,7 +132,7 @@ function Game() {
             </div>
 
 
-            <div className="future-word-container">
+            {/* <div className="future-word-container">
                 {futureWords.map((word, index) => (
                     <span
                         className="future-word"
@@ -134,7 +141,7 @@ function Game() {
                         {word}
                     </span>
                 ))}
-            </div>
+            </div> */}
 
         </div>
     );
