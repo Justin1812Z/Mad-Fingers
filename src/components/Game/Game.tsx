@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState, useRef } from "react";
 import words from "../../data/wordlist.json";
 import "./Game.css";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function Game() {
     const [loading, setLoading] = useState(true);
@@ -14,6 +15,7 @@ function Game() {
     const [newWords, setNewWords] = useState<string[]>([]);
     const [timer, setTimer] = useState(30.00);
     const [timerStarted, setTimerStarted] = useState(false);
+    const navigate = useNavigate();
 
 
     //*** Depricated ***Fetch words from API
@@ -80,12 +82,15 @@ function Game() {
         setLoading(false);
     }, []);
 
+ 
+
     function startTime() {
     
         const intervalId = setInterval(() => {
             setTimer(prevTimer => {
                 if (prevTimer <= 0.01) {
                     clearInterval(intervalId);
+                    navigate("/results");
                     return 0;
                 }
                 return +(prevTimer - 0.01).toFixed(2);
