@@ -1,13 +1,6 @@
 /* ...existing code... */
 
-.game {
-    /* display: flex;
-    width: 100vw;
-    position: relative;
-    justify-content: flex-start;
-    align-items: center;
-    overflow: hidden; */
-}
+
 
 
 .prev-word-container {
@@ -20,8 +13,11 @@
 
 
 .current-word-container {
-    background-color: blue;
+    background-color: gray;
     color: white;
+    width: 200px;
+    height: 50px;
+    border-radius: 25px;
 }
 .correct-letter {
     color: green;
