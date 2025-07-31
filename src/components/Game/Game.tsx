@@ -47,8 +47,8 @@ function Game({ wordCount, setWordCount }: { wordCount: number; setWordCount: (c
     useEffect(() => {
         const onKeyPress = (event: KeyboardEvent) => {
             if (timerStarted == false && wordCount == 0 && currentLetterIndex == 0) {
-                setTimerStarted(true);
-                startTime();
+                //setTimerStarted(true);
+                //startTime();
             }
             if (event.key === currentWord[currentLetterIndex]?.toLowerCase()) {
                 setCurrentLetterIndex(currentLetterIndex + 1);
@@ -75,7 +75,7 @@ function Game({ wordCount, setWordCount }: { wordCount: number; setWordCount: (c
         setWordCount(0);
 
         for (let n = 0; n < 100; n++) {
-            const randomIndex = Math.floor(Math.random() * 8161);
+            const randomIndex = Math.floor(Math.random() * words.words.length);
             newWords.push(words.words[randomIndex]);
 
         }
@@ -129,6 +129,18 @@ function Game({ wordCount, setWordCount }: { wordCount: number; setWordCount: (c
                 )
 
                 )}</h2>
+            </div>
+
+            <div className="word-container">
+                {futureWords.map((word, index) => (
+                    <span
+                    // if index is 0, make it active word ******************************************
+                        className={`future-word ${index === 0 ? "correct-letter" : ""}`}
+                        key={index}
+                    >
+                        {word}
+                    </span>
+                ))}
             </div>
 
 

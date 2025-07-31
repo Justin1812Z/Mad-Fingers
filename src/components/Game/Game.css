@@ -1,7 +1,13 @@
-/* ...existing code... */
 
-
-
+.game { 
+    background-color: rgb(45, 53, 61);
+    position: absolute;
+    top: 120px; /* height of navbar */
+    left: 0;
+    width: 100vw;
+    height: calc(100vh - 120px);
+    z-index: 0;
+}
 
 .prev-word-container {
      background-color: red;
@@ -30,4 +36,9 @@
 .future-word {
     color: lightgray;
     margin: 0 10px;
+}
+
+
+.word-container {
+    background-color: blue;
 }
