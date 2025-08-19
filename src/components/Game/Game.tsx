@@ -7,37 +7,23 @@ function Game({ wordCount, setWordCount }: { wordCount: number; setWordCount: (c
     const [loading, setLoading] = useState(true);
     const [currentWord, setCurrentWord] = useState(" ");
     const [currentLetterIndex, setCurrentLetterIndex] = useState(0);
-    //const [wordCount, setWordCount] = useState(0); 
 
     const [futureWords, setFutureWords] = useState<string[]>(["loading..."]);
-    //const [prevWords, setPrevWords] = useState<string[]>([]);
     const [newWords] = useState<string[]>([]);
     const [timer, setTimer] = useState(30.00);
     const [timerStarted, setTimerStarted] = useState(false);
     const navigate = useNavigate();
 
 
-    //*** Depricated ***Fetch words from API
-    //const fetchAPI = async () => {
-        // await axios
-        //     .get("https://random-word-api.herokuapp.com/word?number=42")
-        //     .then((response) => {
-        //         console.log(response.data);
-        //         setFutureWords(response.data);
-
-        //         // You should NOT log backendData here, it's not updated yet
-        //         // // Log directly from the response
-        //     })
-        //     .then(() => setLoading(false));       
-
-    //};
+  
 
 
 
     //Update currentWord when wordCount or futureWords changes
     useEffect(() => {
         if (loading == false) {
-            setCurrentWord(futureWords.shift() || "No words available");
+            //setCurrentWord(futureWords.shift() || "No words available");
+            setCurrentWord(futureWords[wordCount] || "No words available");
         }
     }, [wordCount, futureWords]);
 
@@ -47,8 +33,8 @@ function Game({ wordCount, setWordCount }: { wordCount: number; setWordCount: (c
     useEffect(() => {
         const onKeyPress = (event: KeyboardEvent) => {
             if (timerStarted == false && wordCount == 0 && currentLetterIndex == 0) {
-                //setTimerStarted(true);
-                //startTime();
+                setTimerStarted(true);
+                startTime();
             }
             if (event.key === currentWord[currentLetterIndex]?.toLowerCase()) {
                 setCurrentLetterIndex(currentLetterIndex + 1);
@@ -68,7 +54,7 @@ function Game({ wordCount, setWordCount }: { wordCount: number; setWordCount: (c
     }, [currentWord, currentLetterIndex]);
 
 
-    //When page loads, populate array with i random words, setFutureWords = that array, setLoading to false
+    //When page loads, populate array with 100 random words, setFutureWords = that array, setLoading to false
     useEffect(() => {
         //fetchAPI();
 
@@ -109,51 +95,27 @@ function Game({ wordCount, setWordCount }: { wordCount: number; setWordCount: (c
     return (
         <div className="game">
 
-            {/* <div className="prev-word-container">
-                {prevWords.map((prevWord, index) => (
-                    <span className="prev-word" key={index}>
-                        {prevWord}
-                    </span>
-                ))}
-            </div> */}
+            
 
-            <h3>{timer}</h3>
+            <h3 className="timer">{timer}</h3>
 
-            <div className="current-word-container">
-                <h2>{currentWord.split('').map((char, index) => (
-                    <span
-                        key={index}
-                        className={currentLetterIndex === index ? "current-letter" : index < currentLetterIndex ? "correct-letter" : "future-letter"}
-                    >{char}</span>
-
-                )
-
-                )}</h2>
-            </div>
-
+          
             <div className="word-container">
                 {futureWords.map((word, index) => (
-                    <span
-                    // if index is 0, make it active word ******************************************
-                        className={`future-word ${index === 0 ? "correct-letter" : ""}`}
-                        key={index}
-                    >
-                        {word}
-                    </span>
+                    index === wordCount ? (
+                        <div key={index} className="current-word">
+                            {word.split("").map((letter, i) => (
+                                <span key={i} className={currentLetterIndex === i ? "current-letter" : i < currentLetterIndex ? "correct-letter" : "future-letter"}>{letter}</span>
+                            ))}
+                        </div>
+                    ) : (
+                        <span key={index} className="future-word">{word}</span>
+                    )
                 ))}
             </div>
 
 
-            {/* <div className="future-word-container">
-                {futureWords.map((word, index) => (
-                    <span
-                        className="future-word"
-                        key={index}
-                    >
-                        {word}
-                    </span>
-                ))}
-            </div> */}
+          
 
         </div>
     );

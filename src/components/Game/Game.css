@@ -9,6 +9,10 @@
     z-index: 0;
 }
 
+.timer{
+    color:aliceblue;
+}
+
 .prev-word-container {
      background-color: red;
 }
@@ -41,4 +45,7 @@
 
 .word-container {
     background-color: blue;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
 }
