@@ -29,7 +29,7 @@ function Testing() {
                         className="future-word"
                         key={0}
                     >
-                        word
+                        Nothing to see here
                     </span>
                
             </div>

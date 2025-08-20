@@ -7,7 +7,7 @@ function Game({ wordCount, setWordCount }: { wordCount: number; setWordCount: (c
     const [loading, setLoading] = useState(true);
     const [currentWord, setCurrentWord] = useState(" ");
     const [currentLetterIndex, setCurrentLetterIndex] = useState(0);
-
+    const [needSpace, setNeedSpace] = useState(false);
     const [futureWords, setFutureWords] = useState<string[]>(["loading..."]);
     const [newWords] = useState<string[]>([]);
     const [timer, setTimer] = useState(30.00);
@@ -35,13 +35,20 @@ function Game({ wordCount, setWordCount }: { wordCount: number; setWordCount: (c
                 setTimerStarted(true);
                 startTime();
             }
-            if (event.key === currentWord[currentLetterIndex]?.toLowerCase()) {
+            if (event.key === currentWord[currentLetterIndex]?.toLowerCase()  && needSpace === false) {
                 setCurrentLetterIndex(currentLetterIndex + 1);
+                console.log(`Current letter index: ${currentLetterIndex + 1}, Current word: ${currentWord}`);
 
                 if (currentLetterIndex == currentWord.length - 1) {
                     setCurrentLetterIndex(0); //Reset currentLetterIndex to start over with the next word
                     setWordCount(wordCount + 1);
+                    setNeedSpace(true); //Set needSpace to true to wait for space key
+                    console.log("Word completed, waiting for space key");
                 }
+            } else if (event.key === " " && needSpace === true) {
+                console.log("Space pressed", needSpace);
+                setNeedSpace(false);
+                setCurrentLetterIndex(0);   
             }
         };
 
@@ -50,12 +57,11 @@ function Game({ wordCount, setWordCount }: { wordCount: number; setWordCount: (c
         return () => {
             document.removeEventListener("keydown", onKeyPress);
         };
-    }, [currentWord, currentLetterIndex]);
+    }, [currentWord, currentLetterIndex, needSpace]);
 
 
     //When page loads, populate array with 100 random words, setFutureWords = that array, setLoading to false
     useEffect(() => {
-        //fetchAPI();
 
         setWordCount(0);
 
