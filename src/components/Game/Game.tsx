@@ -22,7 +22,6 @@ function Game({ wordCount, setWordCount }: { wordCount: number; setWordCount: (c
     //Update currentWord when wordCount or futureWords changes
     useEffect(() => {
         if (loading == false) {
-            //setCurrentWord(futureWords.shift() || "No words available");
             setCurrentWord(futureWords[wordCount] || "No words available");
         }
     }, [wordCount, futureWords]);
@@ -94,18 +93,15 @@ function Game({ wordCount, setWordCount }: { wordCount: number; setWordCount: (c
 
     return (
         <div className="game">
+        
+            <h3 className="timer">{timer}</h3>    
 
-            
-
-            <h3 className="timer">{timer}</h3>
-
-          
             <div className="word-container">
                 {futureWords.map((word, index) => (
                     index === wordCount ? (
                         <div key={index} className="current-word">
                             {word.split("").map((letter, i) => (
-                                <span key={i} className={currentLetterIndex === i ? "current-letter" : i < currentLetterIndex ? "correct-letter" : "future-letter"}>{letter}</span>
+                                <span key={i} className={`${currentLetterIndex === i ? "current-letter" : i < currentLetterIndex ? "correct-letter" : "future-letter"} ${i === 0 ? "first-letter" : ""}`}>{letter}</span>
                             ))}
                         </div>
                     ) : (

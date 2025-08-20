@@ -13,30 +13,18 @@
     color:aliceblue;
 }
 
-.prev-word-container {
-     background-color: red;
-}
+
 .prev-word {
     color: gray;
     margin: 0 10px;
 }
 
 
-.current-word-container {
-    background-color: gray;
-    color: white;
-    width: 200px;
-    height: 50px;
-    border-radius: 25px;
-}
 .correct-letter {
     color: green;
 }
 
 
-.future-word-container {
-    background-color: green;
-}
 .future-word {
     color: lightgray;
     margin: 0 10px;
@@ -44,8 +32,21 @@
 
 
 .word-container {
-    background-color: blue;
     display: flex;
     flex-wrap: wrap;
     width: 100%;
 }
+
+.future-word {
+    color: rgb(143, 141, 141);
+    margin: 0 10px;
+    font-size: 1.5em;
+}
+
+.current-word {
+    color: white;
+    margin: 0 10px; /* Match future-word margin */
+    font-size: 1.5em;
+}
+
+
