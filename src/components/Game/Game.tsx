@@ -107,7 +107,10 @@ function Game({ wordCount, setWordCount }: { wordCount: number; setWordCount: (c
                     index === wordCount ? (
                         <div key={index} className="current-word">
                             {word.split("").map((letter, i) => (
-                                <span key={i} className={`${currentLetterIndex === i ? "current-letter" : i < currentLetterIndex ? "correct-letter" : "future-letter"} ${i === 0 ? "first-letter" : ""}`}>{letter}</span>
+                                <>
+                                    {i === currentLetterIndex && <span key={`cursor-${i}`} className="text-cursor"></span>}
+                                    <span key={i} className={`${currentLetterIndex === i ? "current-letter" : i < currentLetterIndex ? "correct-letter" : "future-letter"}`}>{letter}</span>
+                                </>
                             ))}
                         </div>
                     ) : (

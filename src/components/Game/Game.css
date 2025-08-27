@@ -1,3 +1,22 @@
+.text-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.5em;
+    background: white;
+    vertical-align: middle;
+    margin-left: 1px;
+    margin-right: 1px;
+    animation: blink-cursor 1s steps(2, start) infinite;
+}
+
+@keyframes blink-cursor {
+    0%, 50% {
+        opacity: 1;
+    }
+    51%, 100% {
+        opacity: 0;
+    }
+}
 
 .game { 
     background-color: rgb(45, 53, 61);
@@ -35,18 +54,19 @@
     display: flex;
     flex-wrap: wrap;
     width: 100%;
-}
+    text-align: justify;
+} 
 
 .future-word {
     color: rgb(143, 141, 141);
     margin: 0 10px;
-    font-size: 1.5em;
+    font-size: 2em;
 }
 
 .current-word {
     color: white;
-    margin: 0 10px; /* Match future-word margin */
-    font-size: 1.5em;
+    margin: 0 10px; 
+    font-size: 2em;
 }
 
 
