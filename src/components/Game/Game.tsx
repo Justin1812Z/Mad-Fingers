@@ -15,7 +15,7 @@ function Game({ wordCount, setWordCount }: { wordCount: number; setWordCount: (c
     const navigate = useNavigate();
 
 
-  
+
 
 
 
@@ -31,24 +31,22 @@ function Game({ wordCount, setWordCount }: { wordCount: number; setWordCount: (c
     //Handle key strokes and check if they match the current word
     useEffect(() => {
         const onKeyPress = (event: KeyboardEvent) => {
+            const currentChar = currentWord[currentLetterIndex];
             if (timerStarted == false && wordCount == 0 && currentLetterIndex == 0) {
                 setTimerStarted(true);
                 startTime();
             }
-            if (event.key === currentWord[currentLetterIndex]?.toLowerCase()  && needSpace === false) {
-                setCurrentLetterIndex(currentLetterIndex + 1);
-                console.log(`Current letter index: ${currentLetterIndex + 1}, Current word: ${currentWord}`);
-
-                if (currentLetterIndex == currentWord.length - 1) {
-                    setCurrentLetterIndex(0); //Reset currentLetterIndex to start over with the next word
-                    setWordCount(wordCount + 1);
-                    setNeedSpace(true); //Set needSpace to true to wait for space key
-                    console.log("Word completed, waiting for space key");
+            if (currentChar === " ") {
+                if (event.key === " ") {
+                    setCurrentLetterIndex(currentLetterIndex + 1);
                 }
-            } else if (event.key === " " && needSpace === true) {
-                console.log("Space pressed", needSpace);
-                setNeedSpace(false);
-                setCurrentLetterIndex(0);   
+            } else if (event.key === currentChar?.toLowerCase()) {
+                setCurrentLetterIndex(currentLetterIndex + 1);
+            }
+            // Only complete word if last letter is typed and not a space
+            if (currentLetterIndex === currentWord.length - 1 && !needSpace) {
+                setCurrentLetterIndex(0);
+                setWordCount(wordCount + 1);
             }
         };
 
@@ -57,7 +55,7 @@ function Game({ wordCount, setWordCount }: { wordCount: number; setWordCount: (c
         return () => {
             document.removeEventListener("keydown", onKeyPress);
         };
-    }, [currentWord, currentLetterIndex, needSpace]);
+    }, [currentWord, currentLetterIndex, timerStarted, wordCount]);
 
 
     //When page loads, populate array with 100 random words, setFutureWords = that array, setLoading to false
@@ -67,7 +65,8 @@ function Game({ wordCount, setWordCount }: { wordCount: number; setWordCount: (c
 
         for (let n = 0; n < 100; n++) {
             const randomIndex = Math.floor(Math.random() * words.words.length);
-            newWords.push(words.words[randomIndex]);
+            
+            newWords.push(words.words[randomIndex] + " ");
 
         }
 
@@ -99,18 +98,26 @@ function Game({ wordCount, setWordCount }: { wordCount: number; setWordCount: (c
 
     return (
         <div className="game">
-        
-            <h3 className="timer">{timer}</h3>    
+
+            <h3 className="timer">{timer}</h3>
 
             <div className="word-container">
                 {futureWords.map((word, index) => (
                     index === wordCount ? (
                         <div key={index} className="current-word">
                             {word.split("").map((letter, i) => (
-                                <>
-                                    {i === currentLetterIndex && <span key={`cursor-${i}`} className="text-cursor"></span>}
-                                    <span key={i} className={`${currentLetterIndex === i ? "current-letter" : i < currentLetterIndex ? "correct-letter" : "future-letter"}`}>{letter}</span>
-                                </>
+                                <span
+                                    key={i}
+                                    className={`${currentLetterIndex === i ? "current-letter" : i < currentLetterIndex ? "correct-letter" : "future-letter"}`}
+                                    style={{ position: "relative", display: "inline-block" }}
+                                >
+                                    {i === currentLetterIndex && (
+                                        <span
+                                            className="text-cursor"                                            
+                                        />
+                                    )}
+                                    {letter}
+                                </span>
                             ))}
                         </div>
                     ) : (
@@ -120,7 +127,7 @@ function Game({ wordCount, setWordCount }: { wordCount: number; setWordCount: (c
             </div>
 
 
-          
+
 
         </div>
     );

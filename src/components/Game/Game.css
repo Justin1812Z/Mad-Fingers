@@ -3,7 +3,7 @@
     width: 2px;
     height: 1.5em;
     background: white;
-    vertical-align: middle;
+    vertical-align: top;
     margin-left: 1px;
     margin-right: 1px;
     animation: blink-cursor 1s steps(2, start) infinite;
@@ -61,12 +61,16 @@
     color: rgb(143, 141, 141);
     margin: 0 10px;
     font-size: 2em;
+    letter-spacing: .05em;
 }
 
 .current-word {
     color: white;
     margin: 0 10px; 
     font-size: 2em;
+    letter-spacing: .05em;
 }
+
+
 
 
