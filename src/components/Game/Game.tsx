@@ -7,7 +7,6 @@ function Game({ wordCount, setWordCount }: { wordCount: number; setWordCount: (c
     const [loading, setLoading] = useState(true);
     const [currentWord, setCurrentWord] = useState(" ");
     const [currentLetterIndex, setCurrentLetterIndex] = useState(0);
-    const [needSpace, setNeedSpace] = useState(false);
     const [futureWords, setFutureWords] = useState<string[]>(["loading..."]);
     const [newWords] = useState<string[]>([]);
     const [timer, setTimer] = useState(30.00);
@@ -44,7 +43,7 @@ function Game({ wordCount, setWordCount }: { wordCount: number; setWordCount: (c
                 setCurrentLetterIndex(currentLetterIndex + 1);
             }
             // Only complete word if last letter is typed and not a space
-            if (currentLetterIndex === currentWord.length - 1 && !needSpace) {
+            if (currentLetterIndex === currentWord.length - 1) {
                 setCurrentLetterIndex(0);
                 setWordCount(wordCount + 1);
             }
